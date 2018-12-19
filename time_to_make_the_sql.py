@@ -4,15 +4,15 @@ import argparse
 
 SQL_USE = "USE DMS_TEMPLE;\n"
 SQL_INSERT_INTO = "INSERT INTO dematicemsp.DMSInventory"
-dyanamic_fields = ["itemNumber", "author", "title", "callNumber"] 
+dyanamic_fields = ["itemNumber", "author", "title", "callNumber"]
 static_fields = ["local", "circulationStatus", "audited", "materialType", "storageType", "statisticalCode", "containerId",  "sectorPosition", "binType", "binHeight", "storeDate"]
 all_fields = dyanamic_fields + static_fields
-SQL_FIELDS = "(" + (", ").join(all_fields) + ")" 
+SQL_FIELDS = "(" + (", ").join(all_fields) + ")"
 
 failed_items = []
 
 def values(row):
-  return " VALUES (" + dynamic_values(row) + "'Y', 'Delivered', 'N', '', '', '', '', '', '', 0, '2019-03-01')"
+  return " VALUES (" + dynamic_values(row) + ", 'Y', 'Delivered', 'N', '', '', '', '', '', '', 0, '2019-03-01')"
 
 
 def dynamic_values(row):
@@ -36,12 +36,12 @@ def build_sql(input_file, output_file):
   with open(input_file, "rb") as csvfile:
     rows = csv.DictReader(csvfile)
     for row in rows:
-      insert = SQL_INSERT_INTO + SQL_FIELDS + values(row) + ";\n"  
+      insert = SQL_INSERT_INTO + SQL_FIELDS + values(row) + ";\n"
       sql += insert
-  
+
   with open(output_file, "wb") as output:
     output.write(sql)
-  
+
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
