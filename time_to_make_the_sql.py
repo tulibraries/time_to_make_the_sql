@@ -21,7 +21,8 @@ def dynamic_values(row):
 
 
 def field(row, field, constraint=37):
-  value = row[field]
+  # strip apostrophies    
+  value = row[field].replace("'","")
   if len(value) > constraint:
     print validation_check_message(row, field + " exceeded max length of " + str(constraint) )
   return  value
